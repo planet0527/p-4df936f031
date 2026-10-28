@@ -1,0 +1,265 @@
+<!doctype html><html lang="ja"><head><meta name="robots" content="noindex,nofollow,noarchive"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#07141b"><meta name="description" content="生物の遺伝・繁殖・学習と生態系の変化を観察する、ブラウザで遊べる人工生命シミュレーター。"><title>ARTIFICIAL ECOSYSTEM — 小さな世界に、生命を宿す</title><style>
+:root{color-scheme:dark;--bg:#07141b;--panel:#0e222b;--line:#24404a;--muted:#8da8ae;--ink:#e5f4ed;--mint:#8be4bd;--gold:#ffd89d}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 30% -30%,#18343b,transparent 60%),var(--bg);font:14px/1.55 system-ui,-apple-system,'Noto Sans JP',sans-serif;color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer;color:inherit;background:#17333b;border:1px solid #36535b;border-radius:11px;padding:9px 12px;transition:background .15s,transform .15s}button:hover{background:#244650}button:active{transform:scale(.97)}button:focus-visible,input:focus-visible{outline:2px solid var(--mint);outline-offset:3px}button.active{background:#24594c;border-color:#69caa5}button:disabled{opacity:.5;cursor:default}.shell{max-width:1600px;margin:auto;padding:20px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}.brand{font-weight:750;letter-spacing:.16em;font-size:15px}.sub{font-size:11px;letter-spacing:.13em;color:var(--mint)}.topactions{display:flex;gap:8px;flex-wrap:wrap}.grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px}.card{background:linear-gradient(150deg,#102630e8,#0b1c24ef);border:1px solid #25434c;border-radius:18px;box-shadow:0 16px 45px #0003;overflow:hidden}.viewhead{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:13px 17px;border-bottom:1px solid var(--line);flex-wrap:wrap}.label{font-size:11px;color:var(--muted);letter-spacing:.12em}.pill{font-size:11px;color:var(--mint);border:1px solid #356858;background:#14372f;border-radius:20px;padding:3px 9px}.world{position:relative;background:#061b22}#world{display:block;width:100%;height:auto;aspect-ratio:1.58;touch-action:none;cursor:crosshair}.hud{position:absolute;left:14px;bottom:14px;display:flex;gap:7px;flex-wrap:wrap;pointer-events:none}.hud span{background:#071b22d9;border:1px solid #38525a;padding:4px 9px;border-radius:7px;font-size:11px}.controls{padding:13px 16px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;border-top:1px solid var(--line)}.controls .sep{flex:1}.side{display:flex;flex-direction:column;gap:14px}.section{padding:16px}.section h2{margin:0 0 12px;font-size:12px;letter-spacing:.12em;font-weight:650}.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stat{background:#0b2029;border:1px solid #203e46;border-radius:12px;padding:11px}.stat .n{font-size:25px;font-weight:700;line-height:1.2}.stat small{display:block;color:var(--muted);font-size:11px}.legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;color:var(--muted);font-size:11px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}.range{display:grid;grid-template-columns:1fr auto;gap:4px;margin:12px 0;color:#c7dadb;font-size:12px}.range input{grid-column:1/-1;width:100%;accent-color:#7bdcb2}.row{display:flex;gap:8px;flex-wrap:wrap}.row button{flex:1}.note{color:var(--muted);font-size:12px}.chart{width:100%;height:128px;display:block}.info{font-size:12px;line-height:1.85;color:#c1d8d8}.info b{color:var(--ink)}.event{font-size:11px;color:#9fc0bf;border-bottom:1px solid #1b3841;padding:6px 0}.footer{margin-top:12px;color:#72939b;font-size:11px}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#21443f;color:#e6fff3;padding:10px 18px;border:1px solid #4d987f;border-radius:12px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9}.toast.show{opacity:1}@media(max-width:900px){.grid{grid-template-columns:1fr}.side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}.side .card:last-child{grid-column:1/-1}}@media(max-width:580px){.shell{padding:10px}.top{padding:6px}.brand{font-size:12px}.side{display:flex}.controls{gap:6px}.controls button{padding:9px}#world{aspect-ratio:1.05}.viewhead{padding:10px}.section{padding:13px}}
+
+.timeline{padding:14px 16px;border-top:1px solid var(--line);display:grid;gap:10px}.timelinebar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.timeline input{width:100%;accent-color:var(--mint)}.timeline small{color:var(--muted)}.genealogy{font-size:12px;line-height:1.8;max-height:170px;overflow:auto}.genealogy button{padding:3px 7px;font-size:11px;margin:2px}.mini{color:var(--muted);font-size:12px}.trait{display:inline-block;padding:2px 7px;border-radius:7px;background:#1a3840;margin:3px 3px 3px 0}.timelinebar button{font-size:12px}
+.biomegrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.biomegrid button{padding:8px 4px;font-size:11px}
+.analysis-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.analysis-item{background:#0b2029;border:1px solid #28444d;border-radius:10px;padding:10px}.analysis-item strong{display:block;font-size:19px;color:#c8f3dc}.analysis-item small{color:#8da8ae}
+.eco-panel{display:grid;gap:9px}.eco-alert{border:1px solid #36545b;border-radius:10px;padding:10px;background:#102c33;color:#d9e9df;font-size:12px}.eco-alert.warn{border-color:#8b6941;color:#ffe0a4}.eco-alert.danger{border-color:#98535a;color:#ffd0ce}.meter{height:6px;border-radius:8px;background:#213a41;overflow:hidden}.meter span{display:block;height:100%;background:#8be4bd;transition:width .3s}
+@media(prefers-reduced-motion:reduce){button,.meter span{transition:none}}
+
+
+.help-trigger{border-color:#7cc7ac!important;color:#d9fff0!important}
+.help-dialog{width:min(820px,calc(100vw - 28px));max-height:min(88vh,900px);overflow:auto;border:1px solid #47736f;border-radius:18px;background:#0c2029;color:#e1efe9;box-shadow:0 30px 100px #000b;padding:0}
+.help-dialog::backdrop{background:rgba(1,9,16,.78);backdrop-filter:blur(5px)}
+.help-inner{padding:clamp(18px,4vw,32px)}.help-heading{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border-bottom:1px solid #34535a;padding-bottom:16px}
+.help-heading h2{font-size:clamp(21px,4vw,30px);margin:4px 0;color:#dcf7e8}.help-heading p{margin:0;color:#a6c3c5;font-size:12px}
+.help-dialog h3{font-size:15px;color:#9ce5c5;margin:22px 0 10px}.help-dialog p,.help-dialog li{font-size:13px;line-height:1.85;color:#c5d8d7}
+.help-dialog ol,.help-dialog ul{padding-left:22px}.help-dialog li{margin:4px 0}.help-dialog .help-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.help-dialog .help-card{border:1px solid #2e5055;border-radius:11px;padding:12px;background:#122b32}
+.help-dialog .help-card strong{color:#e3f4df;font-size:13px}.help-dialog .help-card p{margin:5px 0 0}
+.help-dialog .help-note{background:#1a3035;border-left:3px solid #8dd7b4;padding:10px 13px;border-radius:5px}
+@media(max-width:540px){.help-dialog .help-cards{grid-template-columns:1fr}.help-dialog{max-height:94dvh}}
+
+.onboard-progress{display:flex;gap:7px;margin:14px 0}.onboard-progress span{height:5px;flex:1;background:#294750;border-radius:8px}.onboard-progress span.done{background:#8be4bd}
+.onboard-stage{border:1px solid #36555b;border-radius:13px;padding:18px;background:#102a31;min-height:190px}
+.onboard-stage h3{font-size:19px;margin:5px 0 12px}.onboard-stage p{font-size:14px;line-height:1.9}
+.onboard-actions{display:flex;justify-content:space-between;gap:8px;margin-top:14px;flex-wrap:wrap}
+.onboard-actions button{min-width:110px}
+#tutorialStatus{color:#a6c3c5;font-size:12px}
+
+#world{touch-action:none;cursor:crosshair}
+.topactions{flex-wrap:wrap}
+@media(max-width:600px){.topactions button{flex:1 1 auto}.controls{gap:6px}.controls button{min-height:40px}.viewhead{flex-wrap:wrap}.hud{pointer-events:none}.timelinebar{flex-wrap:wrap}}
+</style></head><body><div class="shell"><header class="top"><div><div class="sub">DIGITAL BIOSPHERE / EXPERIMENT 001</div><div class="brand">ARTIFICIAL ECOSYSTEM <span style="color:#76aaac;font-weight:400">/ 生命観測室</span></div></div><div class="topactions"><button id="openHelp" class="help-trigger" aria-haspopup="dialog">？ 遊び方・作品紹介</button><button id="restartTutorial">はじめてガイド</button><button id="save">世界を保存</button><button id="load">保存を復元</button><button id="loadAuto">自動保存から復元</button><button id="reset">新しい世界</button></div></header><div class="grid"><main class="card"><div class="viewhead"><span class="label">LIVE OBSERVATION · 生態系 <span id="autosaveStatus" style="font-size:10px;color:#8eaaa7;margin-left:8px">自動保存: 待機中</span></span><span class="pill" id="status">● SIMULATING</span></div><div class="world"><canvas id="world" width="1000" height="630" aria-label="生物が暮らす生態系のシミュレーション"></canvas><div class="hud"><span id="time">DAY 001</span><span id="pop">0 ORGANISMS</span><span id="fps">1× SPEED</span></div></div><div class="controls"><button id="pause">Ⅱ 一時停止</button><button data-speed="1" class="active">1×</button><button data-speed="3">3×</button><button data-speed="8">8×</button><button data-speed="16">16×</button><button id="singleStep" title="一時停止中に1ステップ進める">＋1 STEP</button><span class="sep"></span><button id="food">＋ 植物</button><button id="spawn">＋ 草食生物</button><button id="predator">＋ 捕食者</button></div><div class="controls" style="border-top:0;padding-top:0"><span class="label">キャンバスをクリックして生物を観察 / 観察モードでドラッグすると植物を追加</span></div><div class="timeline"><div class="timelinebar"><b>TIME MACHINE / 時間の記録</b><span class="sep"></span><button id="snapshot">現在を記録</button><button id="rewind">選択した時点に戻す</button></div><input id="timeSlider" type="range" min="0" max="0" value="0" aria-label="過去の記録を選択"><small id="snapshotInfo">記録なし · 25日ごとに自動記録（最大24件）</small></div></main><aside class="side"><section class="card section"><h2>POPULATION / 個体数</h2><div class="statgrid"><div class="stat"><div class="n" id="herbCount" style="color:#9ce5c5">0</div><small>草食生物</small></div><div class="stat"><div class="n" id="predCount" style="color:#ffaf98">0</div><small>捕食者</small></div><div class="stat"><div class="n" id="plantCount" style="color:#c6d879">0</div><small>植物資源</small></div><div class="stat"><div class="n" id="generation" style="color:#f3d9a4">1</div><small>最高世代</small></div></div><div class="legend"><span><i class="dot" style="background:#9ce5c5"></i>草食</span><span><i class="dot" style="background:#ffaf98"></i>肉食</span><span><i class="dot" style="background:#c6d879"></i>植物</span></div></section><section class="card section"><h2>ENVIRONMENT / 環境操作</h2><div class="range"><span>植物の再生速度</span><output id="growVal">1.0×</output><input id="grow" type="range" min="0" max="3" step="0.1" value="1"></div><div class="range"><span>突然変異率</span><output id="mutVal">12%</output><input id="mutation" type="range" min="0" max="0.5" step="0.01" value="0.12"></div><div class="range"><span>気温</span><output id="tempVal">22°C</output><input id="temperature" type="range" min="0" max="40" step="1" value="22"></div><div class="row"><button id="rain">☂ 雨を降らす</button><button id="drought">☀ 干ばつ</button></div><p class="note">気温は生物の代謝と植物の成長に影響します。環境を変えて、世代の変化を観察しよう。</p></section><section class="card section"><h2>BIOME LAB / 生息環境</h2>
+<div class="note" style="margin-bottom:10px">地形を選んで観測画面をドラッグすると、環境を塗り替えられます。地形によって植物の再生率と移動速度が変化します。</div>
+<div class="biomegrid"><button data-brush="observe" class="active">観察</button><button data-brush="forest">森林</button><button data-brush="grass">草原</button><button data-brush="desert">砂漠</button><button data-brush="water">水域</button><button data-brush="rock">岩地</button></div>
+<div class="range"><span>季節</span><output id="seasonLabel">春</output><span class="mini">40日周期で自動的に変化</span></div>
+<div class="row"><button id="disease">病気を発生</button><button id="heal">治療を実施</button></div>
+<div class="legend"><span><i class="dot" style="background:#e6c275"></i>感染 <b id="infectedCount">0</b></span><span>森林 <b id="forestShare">—</b></span></div>
+</section><section class="card section"><h2>RESEARCH LAB / 研究記録</h2>
+<div class="analysis-grid"><div class="analysis-item"><small>出生 / 死亡</small><strong id="vital">0 / 0</strong></div><div class="analysis-item"><small>出生割合（直近50日）</small><strong id="survival">—</strong></div><div class="analysis-item"><small>平均世代</small><strong id="avgGen">—</strong></div><div class="analysis-item"><small>遺伝的多様性（速度）</small><strong id="diversity">—</strong></div></div>
+<p class="note">各個体の遺伝子が自然選択によってどう変化するか観察できます。出生割合は過去50日間の出生数÷（出生数＋死亡数）であり、生存率ではありません。</p>
+<div class="row"><button id="exportCsv">観測データをCSV出力</button><button id="exportWorld">世界をJSON出力</button></div>
+<div class="row" style="margin-top:8px"><button id="importWorld">JSONから復元</button><button id="scenario">環境実験を開始</button></div>
+<input type="file" id="importFile" accept=".json,application/json" hidden>
+</section><section class="card section"><h2>BEHAVIOR LAB / 行動と学習</h2>
+<div class="note">草食生物は捕食者に遭遇した場所を記憶して避け、捕食者は獲物の移動を予測します。学習を切り替えて行動の違いを比較できます。</div>
+<div class="row"><button id="toggleLearning" class="active">学習 ON</button><button id="togglePrediction" class="active">追跡予測 ON</button></div>
+<div class="analysis-grid"><div class="analysis-item"><small>危険を記憶している個体</small><strong id="memoryCount">0</strong></div><div class="analysis-item"><small>捕食者の捕獲成功数</small><strong id="huntCount">0</strong></div></div>
+<div class="row"><button id="clearMemories">危険記憶を消去</button><button id="showMemories">危険記憶を可視化</button></div>
+</section><section class="card section"><h2>ECOSYSTEM HEALTH / 生態系診断</h2>
+<div class="eco-panel"><div id="ecoAlert" class="eco-alert">環境を分析しています…</div><div class="mini">食料充足度（草食1個体あたりの植物資源）</div><div class="meter"><span id="foodMeter" style="width:0%"></span></div><div class="row"><button id="toggleLinks">捕食・採食ラインを表示</button><button id="follow">選択個体を追跡</button></div><div class="note" id="ecoAdvice">環境を変えたら、しばらく観察してみましょう。</div></div></section><section class="card section"><h2>POPULATION HISTORY / 推移</h2><canvas class="chart" id="chart" width="600" height="210"></canvas><div class="legend"><span><i class="dot" style="background:#9ce5c5"></i>草食</span><span><i class="dot" style="background:#ffaf98"></i>肉食</span></div></section><section class="card section"><h2>SPECIMEN / 個体観察</h2><div id="specimen" class="info">生物をクリックすると、遺伝情報や年齢、世代が表示されます。</div></section><section class="card section"><h2>GENETIC TREE / 遺伝系統</h2><div id="genealogy" class="genealogy mini">個体を選ぶと祖先が表示されます。</div></section><section class="card section"><h2>EVOLUTION / 遺伝形質の平均</h2><div id="traits" class="mini">世代ごとの特徴を観察します。</div></section><section class="card section"><h2>FIELD NOTES / 観測記録</h2><div id="events" class="note">観測を開始しました。</div></section></aside></div><footer class="footer">ARTIFICIAL ECOSYSTEM v1.0 · ブラウザ内で動く人工生命実験。生物の進化は環境・遺伝・偶然によって変化します。保存データはこのブラウザに保存されます。</footer></div><dialog id="tutorialDialog" class="help-dialog" aria-labelledby="tutorialTitle"><div class="help-inner">
+<div class="help-heading"><div><div class="sub">WELCOME / FIRST OBSERVATION</div><h2 id="tutorialTitle">はじめての生命観測</h2><p>約1分で、この世界の楽しみ方を紹介します。</p></div><button id="tutorialSkip" aria-label="チュートリアルを閉じる">✕</button></div>
+<div class="onboard-progress" id="tutorialProgress" aria-label="進行状況"></div>
+<div class="onboard-stage" aria-live="polite"><div class="sub" id="tutorialCounter">STEP 1 / 4</div><h3 id="tutorialStepTitle"></h3><p id="tutorialStepBody"></p></div>
+<div class="onboard-actions"><button id="tutorialBack">← 戻る</button><span id="tutorialStatus"></span><button id="tutorialNext" class="active">次へ →</button></div>
+</div></dialog><dialog id="helpDialog" class="help-dialog" aria-labelledby="helpTitle"><div class="help-inner">
+<div class="help-heading"><div><div class="sub">FIELD GUIDE / VERSION 1.0</div><h2 id="helpTitle">ARTIFICIAL ECOSYSTEM</h2><p>小さな世界に、生命の歴史を。 — 遊び方と観測ガイド</p></div><button id="closeHelp" aria-label="説明を閉じる">✕ 閉じる</button></div>
+<h3>この作品について</h3>
+<p>ARTIFICIAL ECOSYSTEM は、植物・草食生物・捕食者が暮らす世界を観察する、ブラウザで動く人工生命シミュレーターです。生物は食べ物を探し、エネルギーを消費し、繁殖し、寿命を迎えます。子は親から遺伝子を受け継ぎ、突然変異や環境によって集団の特徴が少しずつ変化します。</p>
+<p>目標スコアやクリア条件はありません。あなたは世界の観測者であり、環境を変える実験者です。<strong>同じ世界が、いつも同じ未来になるとは限りません。</strong></p>
+<h3>はじめの3ステップ</h3>
+<ol><li><strong>まずは眺める：</strong>ミント色が草食生物、ピンク色が捕食者、黄緑色の点が植物です。個体数と時間の変化を観察します。</li><li><strong>生物を選ぶ：</strong>観察画面で生物をクリック／タップ。年齢・遺伝子・世代・祖先を右側の「個体観察」で確認できます。</li><li><strong>環境を変える：</strong>「＋ 植物」「雨を降らす」「干ばつ」、地形ブラシなどを使い、変化を比べてみましょう。</li></ol>
+<h3>画面の見方・操作</h3>
+<div class="help-cards">
+<div class="help-card"><strong>時間操作</strong><p>一時停止、1～16倍速、1ステップ実行ができます。長い世代変化を速送りで観察できます。</p></div>
+<div class="help-card"><strong>BIOME LAB / 地形</strong><p>観察・森林・草原・砂漠・水域・岩地を選択。観察画面をドラッグすると地形を塗れます。地形により植物の育ちやすさや移動が変わります。</p></div>
+<div class="help-card"><strong>ENVIRONMENT / 環境</strong><p>植物の再生速度、突然変異率、気温を変更できます。季節は時間の経過で自動的に移り変わります。</p></div>
+<div class="help-card"><strong>BEHAVIOR LAB / 行動</strong><p>危険地点の記憶や捕食者の追跡予測を切り替え、行動の違いを観察できます。</p></div>
+<div class="help-card"><strong>RESEARCH LAB / 研究</strong><p>出生・死亡、平均世代、遺伝形質の変化を確認。観測データをCSVで書き出せます。</p></div>
+<div class="help-card"><strong>TIME MACHINE / 時間</strong><p>過去の記録を選び、世界をその時点へ復元できます。戻した後は別の未来を試せます。</p></div>
+</div>
+<h3>生き物の仕組み</h3>
+<ul><li><strong>食物連鎖：</strong>植物 → 草食生物 → 捕食者。資源不足や捕食により個体数が変動します。</li><li><strong>遺伝と繁殖：</strong>条件を満たした同種の2個体が近づくと子を残せます。子は両親の特徴を組み合わせて受け継ぎます。</li><li><strong>自然選択：</strong>速度・視野・代謝効率などが生存や繁殖に影響します。ただし特定の進化が必ず起こるわけではありません。</li><li><strong>学習と記憶：</strong>草食生物は危険だった地点を記憶し、捕食者は獲物の移動方向を考慮して追跡できます。</li><li><strong>病気と環境：</strong>感染症、気温、季節、地形が生態系に影響します。生物が絶滅することもあります。</li></ul>
+<h3>試してみたい観察実験</h3>
+<ol><li><strong>食料実験：</strong>植物の再生速度を上げて、草食生物と捕食者の数がどう変化するか観察。</li><li><strong>砂漠実験：</strong>森林を砂漠に塗り替え、食料や生存率の変化を比較。</li><li><strong>学習実験：</strong>危険地点の記憶をON/OFFして、草食生物の移動パターンを比較。</li><li><strong>時間分岐：</strong>時間の記録から戻り、異なる環境操作を行って別の経過を観察。</li></ol>
+<h3>保存・データについて</h3>
+<p>「世界を保存」はブラウザ内の保存領域に記録します。「世界をJSON出力」はファイルとして保存でき、別のブラウザでの復元にも使えます。観測結果はCSV出力できます。端末やブラウザの設定によっては保存が消えることがあるため、大切な世界はJSONでも保存してください。</p>
+<p class="help-note"><strong>ご注意：</strong>本作は創作・学習向けの簡略化されたモデルです。実際の生態学・遺伝学・疫学を厳密に再現するものではありません。時間を戻した場合も、乱数まで含めた完全な再現は保証されません。</p>
+<div class="row" style="margin-top:20px"><button id="helpStart" class="active">観測をはじめる →</button></div>
+</div></dialog><div class="toast" id="toast" role="status"></div><script>
+const tutorialDialog=document.getElementById('tutorialDialog');
+const tutorialSteps=[
+{title:'ここは、小さな生命の世界。',body:'草食生物は植物を探し、捕食者は草食生物を追います。生物は食べ、成長し、繁殖し、やがて死んでいきます。クリア条件はありません。変化そのものを楽しむ観測シミュレーターです。'},
+{title:'一匹の生命を見つめてみよう。',body:'チュートリアルを閉じたら、中央の観測画面で気になる生物をタップしてください。年齢、エネルギー、遺伝子、親子関係などを調べられます。'},
+{title:'環境を変えると、未来も変わる。',body:'植物を追加したり、雨や干ばつを起こしたりできます。「BIOME LAB」では森林・草原・砂漠などを選び、観測画面をなぞって地形を編集できます。'},
+{title:'結果を記録し、別の未来を試そう。',body:'時間を速めて世代の変化を観察できます。研究データはCSVで出力可能。世界をJSONで保存すれば、あとから復元できます。詳しい説明は「？ 遊び方・作品紹介」からいつでも読めます。'}
+];
+let tutorialIndex=0;
+function showTutorialStep(){
+ const t=tutorialSteps[tutorialIndex];
+ document.getElementById('tutorialCounter').textContent=`STEP ${tutorialIndex+1} / ${tutorialSteps.length}`;
+ document.getElementById('tutorialStepTitle').textContent=t.title;
+ document.getElementById('tutorialStepBody').textContent=t.body;
+ document.getElementById('tutorialProgress').replaceChildren(...tutorialSteps.map((_,i)=>{const n=document.createElement('span');if(i<=tutorialIndex)n.className='done';return n}));
+ document.getElementById('tutorialBack').disabled=tutorialIndex===0;
+ document.getElementById('tutorialNext').textContent=tutorialIndex===tutorialSteps.length-1?'観測をはじめる →':'次へ →';
+ document.getElementById('tutorialStatus').textContent=`${tutorialIndex+1} / ${tutorialSteps.length}`;
+}
+function openTutorial(){tutorialIndex=0;showTutorialStep();if(!tutorialDialog.open)tutorialDialog.showModal();}
+function closeTutorial(){tutorialDialog.close();try{localStorage.setItem('artificial-ecosystem.tutorial.v1','done')}catch(e){}}
+document.getElementById('restartTutorial').addEventListener('click',openTutorial);
+document.getElementById('tutorialSkip').addEventListener('click',closeTutorial);
+document.getElementById('tutorialBack').addEventListener('click',()=>{tutorialIndex=Math.max(0,tutorialIndex-1);showTutorialStep()});
+document.getElementById('tutorialNext').addEventListener('click',()=>{if(tutorialIndex===tutorialSteps.length-1)closeTutorial();else{tutorialIndex++;showTutorialStep()}});
+tutorialDialog.addEventListener('close',()=>{try{localStorage.setItem('artificial-ecosystem.tutorial.v1','done')}catch(e){}});
+const helpDialog=document.getElementById('helpDialog');
+document.getElementById('openHelp').addEventListener('click',()=>helpDialog.showModal());
+document.getElementById('closeHelp').addEventListener('click',()=>helpDialog.close());
+document.getElementById('helpStart').addEventListener('click',()=>helpDialog.close());
+helpDialog.addEventListener('click',e=>{if(e.target===helpDialog)helpDialog.close()});
+
+(()=>{'use strict';const W=1000,H=630,TAU=Math.PI*2,$=id=>document.getElementById(id),cv=$('world'),ctx=cv.getContext('2d'),chart=$('chart').getContext('2d');let organisms=[],plants=[],nextId=1,day=1,ticks=0,paused=false,speed=1,selected=null,history=[],events=[],dragging=false,last=performance.now(),acc=0,snapshots=[],lineage=new Map(),births=0,deaths=0,vitals=[],research=[];let env={grow:1,mutation:.12,temperature:22};
+const TILE=25,COLS=W/TILE,ROWS=Math.ceil(H/TILE);
+const BIOMES={grass:{growth:1,move:1,color:'#123c3a'},forest:{growth:1.6,move:.78,color:'#194b43'},desert:{growth:.16,move:.88,color:'#4b3b2e'},water:{growth:0,move:.48,color:'#123f5b'},rock:{growth:.06,move:.74,color:'#333b43'}};
+let terrain=[],brush='observe',lastSeason=-1,showLinks=false,following=false,learningEnabled=true,predictionEnabled=true,showMemories=false,huntCount=0;
+const cellIndex=(x,y)=>clamp(Math.floor(y/TILE),0,ROWS-1)*COLS+clamp(Math.floor(x/TILE),0,COLS-1);
+const biomeAt=(x,y)=>terrain[cellIndex(x,y)]||'grass';
+function seedTerrain(){
+ terrain=Array.from({length:COLS*ROWS},(_,i)=>{let x=i%COLS,y=Math.floor(i/COLS);
+ const n=Math.sin(x*.23)*Math.cos(y*.32)+Math.sin((x+y)*.17)*.55+Math.random()*.36;
+ return n>.74?'forest':n<-.83?'desert':Math.sin(x*.12+y*.17)>1.05?'water':'grass'});
+}
+function paintTerrain(x,y){const cx=Math.floor(x/TILE),cy=Math.floor(y/TILE);for(let oy=-1;oy<=1;oy++)for(let ox=-1;ox<=1;ox++){
+ const tx=cx+ox,ty=cy+oy;if(tx>=0&&ty>=0&&tx<COLS&&ty<ROWS&&ox*ox+oy*oy<=2)terrain[ty*COLS+tx]=brush;
+}}
+const seasonName=['春','夏','秋','冬'];
+function seasonFactor(){return [1.3,1,.7,.4][Math.floor(day/40)%4]}
+const rand=(a,b)=>a+Math.random()*(b-a),clamp=(x,a,b)=>Math.max(a,Math.min(b,x)),dist2=(a,b)=>{let dx=a.x-b.x,dy=a.y-b.y;return dx*dx+dy*dy},rgen=()=>({speed:rand(.7,1.4),vision:rand(55,135),efficiency:rand(.65,1.4),size:rand(.7,1.35),fertility:rand(.7,1.35)});function notify(t){const e=$('toast');e.textContent=t;e.classList.add('show');clearTimeout(notify.t);notify.t=setTimeout(()=>e.classList.remove('show'),2200)}function log(t){events.unshift(`DAY ${Math.floor(day)} · ${t}`);events=events.slice(0,4);$('events').replaceChildren(...events.map(message=>{const node=document.createElement('div');node.className='event';node.textContent=message;return node}))}
+function create(type,x=rand(30,W-30),y=rand(30,H-30),parent=null){if(organisms.length>=450)return;let g=parent?Object.fromEntries(Object.entries(parent.genes).map(([k,v])=>[k,Math.random()<env.mutation?clamp(v*rand(.78,1.22),k==='vision'?35:.35,k==='vision'?200:2):v])):rgen();let o={id:nextId++,type,x,y,vx:0,vy:0,energy:parent?rand(43,62):rand(58,92),age:0,gen:parent?parent.gen+1:1,parent:parent?parent.id:null,children:0,genes:g,angle:rand(0,TAU),wander:rand(0,TAU),cooldown:rand(20,90),dangerMemory:[],hunts:0};organisms.push(o);rememberLineage(o);if(parent)parent.children++;births++;return o}
+function rememberLineage(o){lineage.set(o.id,{id:o.id,parent:o.parent,secondParent:o.secondParent??null,gen:o.gen,type:o.type,genes:{...o.genes}});if(lineage.size>7000){const oldest=lineage.keys().next().value;lineage.delete(oldest)}}
+function takeSnapshot(silent=false){const snapshot={terrain:[...terrain],day,ticks,nextId,organisms:structuredClone(organisms),plants:structuredClone(plants),env:{...env},history:structuredClone(history),events:[...events],lineage:[...lineage.entries()],births,deaths,vitals:structuredClone(vitals),huntCount};snapshots.push(snapshot);if(snapshots.length>24)snapshots.shift();$('timeSlider').value=snapshots.length-1;updateTimeline();if(!silent)notify(`DAY ${Math.floor(day)} を記録しました`)}
+function updateTimeline(){const slider=$('timeSlider');slider.max=Math.max(0,snapshots.length-1);slider.value=Math.min(+slider.value,snapshots.length-1);const x=snapshots[+slider.value];$('snapshotInfo').textContent=x?`記録 ${+slider.value+1}/${snapshots.length} · DAY ${Math.floor(x.day)} · ${x.organisms.length}個体 · 過去の時点へ戻すとその後の記録は消えます`:'記録なし'}
+function rewind(){const i=+$('timeSlider').value,s=snapshots[i];if(!s)return;if(!confirm(`DAY ${Math.floor(s.day)} に戻しますか？ その後の歴史は消えます。`))return;({day,ticks,nextId}=s);terrain=Array.isArray(s.terrain)?[...s.terrain]:terrain;organisms=structuredClone(s.organisms);plants=structuredClone(s.plants);env={...s.env};history=structuredClone(s.history);events=[...s.events];lineage=new Map(s.lineage||[]);births=s.births||0;deaths=s.deaths||0;vitals=structuredClone(s.vitals||[]);huntCount=s.huntCount||0;snapshots=snapshots.slice(0,i+1);selected=null;acc=0;for(const [k,v] of [['grow',env.grow],['mutation',env.mutation],['temperature',env.temperature]]){$(k).value=v;$(k).dispatchEvent(new Event('input'))}updateTimeline();updateUI();log('時間を巻き戻しました');notify('過去の世界へ戻りました')}
+function addPlants(n=1,x,y){for(let i=0;i<n&&plants.length<1250;i++){let px=x===undefined?rand(10,W-10):clamp(x+rand(-28,28),8,W-8),py=y===undefined?rand(10,H-10):clamp(y+rand(-28,28),8,H-8);
+ if(['water','rock'].includes(biomeAt(px,py)))continue;
+ plants.push({x:px,y:py,size:rand(1.5,3.5),energy:rand(8,17)})}}
+function reset(){huntCount=0;following=false;births=0;deaths=0;vitals=[];research=[];seedTerrain();lastSeason=-1;organisms=[];plants=[];nextId=1;day=1;ticks=0;selected=null;history=[];events=[];snapshots=[];lineage=new Map();for(let i=0;i<43;i++)create('herb');for(let i=0;i<7;i++)create('pred');addPlants(310);births=0;log('新しい生態系が誕生した');takeSnapshot(true);updateUI()}
+function nearest(o,arr,radius,predicate){let best=null,bestD=radius*radius;for(const a of arr){if(a===o||(predicate&&!predicate(a)))continue;const d=dist2(o,a);if(d<bestD){best=a;bestD=d}}return best}
+function simulate(){ticks++;day+=1/25;const heat=Math.abs(env.temperature-22)/22;const growth=env.grow*(1-heat*.65)*seasonFactor();
+if(Math.random()<growth*.9&&plants.length<950){
+ const px=rand(8,W-8),py=rand(8,H-8),b=BIOMES[biomeAt(px,py)];
+ if(Math.random()<b.growth/1.6)addPlants(Math.random()<.18?2:1,px,py);
+}
+const currentSeason=Math.floor(day/40)%4;
+if(currentSeason!==lastSeason){lastSeason=currentSeason;if(ticks>1)log(`季節が${seasonName[currentSeason]}に変わった`);}
+const babies=[],dead=[];for(const o of organisms){o.age+=1/25;const g=o.genes,step=(o.type==='pred'?1.45:1.22)*g.speed;let target=null,flee=null;
+ if(o.infected){o.energy-=.13;o.infectionAge=(o.infectionAge||0)+1;
+  if(o.infectionAge>150&&Math.random()<.002)o.infected=false;
+  if(Math.random()<.007){const near=nearest(o,organisms,24,a=>a!==o&&!a.infected);if(near&&Math.random()<.28){near.infected=true;near.infectionAge=0;}}
+ }
+ if(o.type==='herb'){
+ flee=nearest(o,organisms,g.vision*.62,a=>a.type==='pred');target=nearest(o,plants,g.vision);
+ if(learningEnabled){o.dangerMemory??=[];if(flee&&(!o.dangerMemory.length||dist2(o,o.dangerMemory[o.dangerMemory.length-1])>2500)){o.dangerMemory.push({x:o.x,y:o.y,strength:1});if(o.dangerMemory.length>5)o.dangerMemory.shift();}}
+}else target=nearest(o,organisms,g.vision,a=>a.type==='herb');let dx=0,dy=0;if(flee){dx=o.x-flee.x;dy=o.y-flee.y}else if(target){dx=target.x-o.x;dy=target.y-o.y;
+ if(o.type==='pred'&&predictionEnabled){const lead=clamp(Math.sqrt(dist2(o,target))/Math.max(1,step*3),0,12);dx+=clamp(target.vx||0,-3,3)*lead;dy+=clamp(target.vy||0,-3,3)*lead;}
+}else{if(Math.random()<.045)o.wander+=rand(-1.3,1.3);dx=Math.cos(o.wander);dy=Math.sin(o.wander)}if(o.type==='herb'&&learningEnabled&&!flee){o.dangerMemory??=[];
+ for(const memory of o.dangerMemory){const vx=o.x-memory.x,vy=o.y-memory.y,ds=vx*vx+vy*vy;
+ if(ds<9500&&ds>1){const weight=(1-ds/9500)*4*memory.strength;dx+=vx/Math.sqrt(ds)*weight;dy+=vy/Math.sqrt(ds)*weight;}}
+ if(ticks%25===0)o.dangerMemory=o.dangerMemory.filter(m=>(m.strength*=.975)>.08);
+}let d=Math.hypot(dx,dy)||1;const mobility=BIOMES[biomeAt(o.x,o.y)].move;
+ if(o.type==='herb'&&!flee&&target){const mates=organisms.filter(a=>a!==o&&a.type==='herb'&&dist2(o,a)<1800);
+ if(mates.length){dx=dx*.85+(mates.reduce((v,a)=>v+a.x,0)/mates.length-o.x)*.15;dy=dy*.85+(mates.reduce((v,a)=>v+a.y,0)/mates.length-o.y)*.15;d=Math.hypot(dx,dy)||1;}}
+ o.vx+=(dx/d*step*mobility-o.vx)*.24;o.vy+=(dy/d*step*mobility-o.vy)*.24;o.x=clamp(o.x+o.vx,7,W-7);o.y=clamp(o.y+o.vy,7,H-7);o.angle=Math.atan2(o.vy,o.vx);o.energy-=((o.type==='pred'?.115:.095)+step*.025+heat*.075)*g.size/g.efficiency;o.cooldown--;if(target&&dist2(o,target)<(o.type==='pred'?105:64)){if(o.type==='herb'&&plants.includes(target)){o.energy=clamp(o.energy+target.energy*.86,0,160);plants.splice(plants.indexOf(target),1)}else if(o.type==='pred'&&target.energy>0){o.energy=clamp(o.energy+target.energy*.66,0,170);target.energy=-100;o.hunts=(o.hunts||0)+1;huntCount++}}if(o.energy>(o.type==='pred'?115:105)&&o.age>2&&o.cooldown<=0&&organisms.length+babies.length<430){const mate=nearest(o,organisms,55,a=>a.type===o.type&&a.age>2&&a.energy>(a.type==='pred'?88:85)&&a.cooldown<=0&&a.id!==o.id);if(mate){o.energy*=.72;mate.energy*=.72;o.cooldown=rand(100,220)/g.fertility;mate.cooldown=rand(100,220)/mate.genes.fertility;const baby=createPending(o,mate);babies.push(baby)}}if(o.energy<=0||o.age>(o.type==='pred'?64:51))dead.push(o)}if(dead.length){deaths+=dead.length;vitals.push({day,births:0,deaths:dead.length});}if(babies.length){births+=babies.length;vitals.push({day,births:babies.length,deaths:0});}vitals=vitals.filter(v=>v.day>=day-50);if(dead.length)organisms=organisms.filter(o=>!dead.includes(o)&&o.energy>0);organisms.push(...babies);for(const baby of babies)rememberLineage(baby);if(ticks%625===0)takeSnapshot(true);if(ticks%50===0){const herbN=organisms.filter(o=>o.type==='herb').length,predN=organisms.length-herbN;
+history.push({day:+day.toFixed(1),herb:herbN,pred:predN,plants:plants.length,births,deaths,avgSpeed:organisms.length?organisms.reduce((a,o)=>a+o.genes.speed,0)/organisms.length:0,avgEfficiency:organisms.length?organisms.reduce((a,o)=>a+o.genes.efficiency,0)/organisms.length:0});if(history.length>160)history.shift();if(organisms.length===0&&((history[history.length-2]?.herb||0)+(history[history.length-2]?.pred||0))>0)log('すべての生物が絶滅した');else if(ticks%400===0)log(`最高世代 ${Math.max(0,...organisms.map(o=>o.gen))} · 個体数 ${organisms.length}`)}if(ticks%8===0)updateUI()}
+function createPending(parent,mate=null){let g=Object.fromEntries(Object.entries(parent.genes).map(([k,v])=>{const inherited=mate?(Math.random()<.5?v:mate.genes[k]):v;return [k,Math.random()<env.mutation?clamp(inherited*rand(.78,1.22),k==='vision'?35:.35,k==='vision'?200:2):inherited]}));parent.children++;if(mate)mate.children++;return{id:nextId++,type:parent.type,x:clamp(parent.x+rand(-12,12),7,W-7),y:clamp(parent.y+rand(-12,12),7,H-7),vx:0,vy:0,energy:rand(42,58),age:0,gen:parent.gen+1,parent:parent.id,secondParent:mate?mate.id:null,children:0,genes:g,angle:rand(0,TAU),wander:rand(0,TAU),cooldown:rand(100,200),dangerMemory:[],hunts:0}}
+function legacyRenderUnused(){ctx.fillStyle='#071d24';ctx.fillRect(0,0,W,H);ctx.strokeStyle='#ffffff09';ctx.lineWidth=1;for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}for(const p of plants){ctx.fillStyle='#b4d97c18';ctx.beginPath();ctx.arc(p.x,p.y,p.size*3,0,TAU);ctx.fill();ctx.fillStyle='#c5df82';ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,TAU);ctx.fill()}for(const o of organisms){let herb=o.type==='herb',h=herb?156:13,size=(herb?5.2:7)*o.genes.size;ctx.save();ctx.translate(o.x,o.y);ctx.rotate(o.angle);ctx.shadowBlur=15;ctx.shadowColor=herb?'#6dd8ad':'#ff8e72';ctx.fillStyle=`hsla(${h},65%,${clamp(65+o.genes.efficiency*7,60,83)}%,.9)`;ctx.beginPath();ctx.ellipse(0,0,size*1.3,size,0,0,TAU);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='#103039';ctx.beginPath();ctx.arc(size*.45,-size*.34,Math.max(1.2,size*.19),0,TAU);ctx.arc(size*.45,size*.34,Math.max(1.2,size*.19),0,TAU);ctx.fill();if(o.infected){ctx.strokeStyle='#f2c36d';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,size+4,0,TAU);ctx.stroke();}
+ if(o.id===selected){ctx.strokeStyle='#fff2b5';ctx.lineWidth=1.5;ctx.setLineDash([3,4]);ctx.beginPath();ctx.arc(0,0,size+9,0,TAU);ctx.stroke()}ctx.restore()}}
+function loop(now){const dt=Math.min(.12,(now-last)/1000);last=now;if(!paused){acc+=dt*25*speed;let steps=0;while(acc>=1&&steps<32){simulate();acc--;steps++}if(steps===32)acc=0}renderFrame();requestAnimationFrame(loop)}function renderFrame(){renderStatic();}function renderStatic(){ctx.fillStyle='#071d24';ctx.fillRect(0,0,W,H);
+ for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){ctx.fillStyle=BIOMES[terrain[y*COLS+x]||'grass'].color;ctx.fillRect(x*TILE,y*TILE,TILE+1,TILE+1);}
+ ctx.fillStyle=`rgba(10,21,34,${Math.floor(day/40)%4===3?.24:.07})`;ctx.fillRect(0,0,W,H);
+ ctx.strokeStyle='#ffffff09';ctx.lineWidth=1;for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}for(const p of plants){ctx.fillStyle='#b4d97c18';ctx.beginPath();ctx.arc(p.x,p.y,p.size*3,0,TAU);ctx.fill();ctx.fillStyle='#c5df82';ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,TAU);ctx.fill()}if(showMemories){ctx.save();for(const o of organisms){if(o.type!=='herb')continue;for(const m of (o.dangerMemory||[])){ctx.fillStyle=`rgba(255,151,104,${Math.min(.12,(m.strength||0)*.06)})`;ctx.beginPath();ctx.arc(m.x,m.y,24,0,TAU);ctx.fill();}}ctx.restore();}
+if(showLinks){ctx.save();ctx.lineWidth=.75;let drawn=0;for(const o of organisms){if(drawn>=110)break;const t=o.type==='herb'?nearest(o,plants,70):nearest(o,organisms,80,a=>a.type==='herb');if(t){ctx.strokeStyle=o.type==='herb'?'#9ce5c53d':'#ffaf984d';ctx.beginPath();ctx.moveTo(o.x,o.y);ctx.lineTo(t.x,t.y);ctx.stroke();drawn++;}}ctx.restore();}
+if(following&&selected!=null){const f=organisms.find(o=>o.id===selected);if(f){ctx.save();ctx.strokeStyle='#ffdf99';ctx.lineWidth=1.5;ctx.setLineDash([4,7]);ctx.beginPath();ctx.arc(f.x,f.y,27+3*Math.sin(ticks*.09),0,TAU);ctx.stroke();ctx.restore();}else following=false;}
+for(const o of organisms){const herb=o.type==='herb',size=(herb?5.2:7)*o.genes.size;ctx.save();ctx.translate(o.x,o.y);ctx.rotate(o.angle);ctx.shadowBlur=14;ctx.shadowColor=herb?'#6dd8ad':'#ff8e72';const elong=clamp(o.genes.speed*.83,.65,1.5),round=clamp(o.genes.efficiency*.88,.6,1.35);
+ctx.fillStyle=herb?`hsl(${Math.round(135+o.genes.vision*.16)},66%,${Math.round(61+o.genes.efficiency*7)}%)`:`hsl(${Math.round(5+o.genes.vision*.08)},85%,70%)`;
+ctx.beginPath();ctx.ellipse(0,0,size*1.3*elong,size*round,0,0,TAU);ctx.fill();ctx.shadowBlur=0;
+ctx.strokeStyle=herb?'#baf4dc':'#ffd0b9';ctx.lineWidth=1.5;
+const antenna=clamp(o.genes.vision/42,1,4.5);ctx.beginPath();ctx.moveTo(size*.1,-size*.6);ctx.lineTo(size*.55,-size*(.7+antenna*.12));ctx.moveTo(size*.1,size*.6);ctx.lineTo(size*.55,size*(.7+antenna*.12));ctx.stroke();ctx.fillStyle='#103039';ctx.beginPath();ctx.arc(size*.45,-size*.34,Math.max(1.2,size*.19),0,TAU);ctx.arc(size*.45,size*.34,Math.max(1.2,size*.19),0,TAU);ctx.fill();if(o.infected){ctx.strokeStyle='#f2c36d';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,size+4,0,TAU);ctx.stroke();}
+ if(o.id===selected){ctx.strokeStyle='#fff2b5';ctx.lineWidth=1.5;ctx.setLineDash([3,4]);ctx.beginPath();ctx.arc(0,0,size+9,0,TAU);ctx.stroke()}ctx.restore()}}
+function drawChart(){const c=chart.canvas,w=c.width,h=c.height;chart.clearRect(0,0,w,h);chart.strokeStyle='#2d4c53';chart.lineWidth=1;for(let i=1;i<=3;i++){chart.beginPath();chart.moveTo(0,i*h/4);chart.lineTo(w,i*h/4);chart.stroke()}if(history.length<2)return;const max=Math.max(15,...history.map(a=>Math.max(a.herb,a.pred)));for(const [key,color] of [['herb','#9ce5c5'],['pred','#ffaf98']]){chart.strokeStyle=color;chart.lineWidth=3;chart.beginPath();history.forEach((v,i)=>{const x=i/(history.length-1)*w,y=h-8-v[key]/max*(h-16);if(i===0)chart.moveTo(x,y);else chart.lineTo(x,y)});chart.stroke()}}
+function updateUI(){const herb=organisms.filter(o=>o.type==='herb').length,pred=organisms.length-herb;$('herbCount').textContent=herb;$('predCount').textContent=pred;$('plantCount').textContent=plants.length;$('generation').textContent=organisms.length?Math.max(...organisms.map(o=>o.gen)):0;$('time').textContent=`DAY ${String(Math.floor(day)).padStart(3,'0')}`;$('pop').textContent=`${organisms.length} ORGANISMS`;$('fps').textContent=`${speed}× SPEED`;let o=organisms.find(o=>o.id===selected);$('specimen').innerHTML=o?`<b>NO. ${o.id}</b> · ${o.type==='herb'?'草食生物':'捕食者'}<br>世代 <b>${o.gen}</b> / 年齢 <b>${o.age.toFixed(1)}日</b><br>エネルギー <b>${Math.max(0,Math.round(o.energy))}</b> / 子孫 <b>${o.children}</b><br>親個体 <b>${o.parent??'—'}</b> / もう一方の親 <b>${o.secondParent??'—'}</b><hr style="border:0;border-top:1px solid #2b4750">移動速度 ${o.genes.speed.toFixed(2)}<br>視野 ${o.genes.vision.toFixed(0)}<br>代謝効率 ${o.genes.efficiency.toFixed(2)}<br>体格 ${o.genes.size.toFixed(2)}<br>繁殖適性 ${o.genes.fertility.toFixed(2)}`:'生物をクリックすると、遺伝情報や年齢、世代が表示されます。';$('seasonLabel').textContent=seasonName[Math.floor(day/40)%4];
+ $('infectedCount').textContent=organisms.filter(o=>o.infected).length;
+ $('forestShare').textContent=Math.round(terrain.filter(x=>x==='forest').length/terrain.length*100)+'%';
+ const n=organisms.length,avg=n?organisms.reduce((a,o)=>a+o.gen,0)/n:0;
+const speedMean=n?organisms.reduce((a,o)=>a+o.genes.speed,0)/n:0;
+const sd=n?Math.sqrt(organisms.reduce((a,o)=>a+(o.genes.speed-speedMean)**2,0)/n):0;
+const recentB=vitals.reduce((a,v)=>a+v.births,0),recentD=vitals.reduce((a,v)=>a+v.deaths,0);
+$('memoryCount').textContent=organisms.filter(o=>o.type==='herb'&&o.dangerMemory?.length).length;$('huntCount').textContent=huntCount;
+$('vital').textContent=`${births} / ${deaths}`;
+$('survival').textContent=recentB+recentD?Math.round(100*recentB/(recentB+recentD))+'%':'—';
+$('avgGen').textContent=n?avg.toFixed(1):'—';
+$('diversity').textContent=n?sd.toFixed(3):'—';
+const foodRatio=herb?plants.length/herb:0;
+$('foodMeter').style.width=Math.round(clamp(foodRatio/8,0,1)*100)+'%';
+const alert=$('ecoAlert'),advice=$('ecoAdvice');let severity='',message='',tip='';
+if(organisms.length===0){severity='danger';message='生物が絶滅しました';tip='新しい世界を作るか、生物を再導入できます。'}
+else if(herb===0){severity='danger';message='草食生物が絶滅しています';tip='草食生物を追加し、植物を増やしてみましょう。'}
+else if(pred===0){severity='warn';message='捕食者がいません';tip='捕食者を追加すると、食物連鎖の変化を観察できます。'}
+else if(foodRatio<1.5){severity='danger';message='食料不足の兆候';tip='植物を追加するか、植物の再生速度を上げましょう。'}
+else if(foodRatio<3){severity='warn';message='食料が少なめです';tip='草食生物の個体数と植物の回復を観察しましょう。'}
+else{message='生態系は現在、観測可能な状態です';tip='これは簡易判定です。長期的な安定を保証するものではありません。'}
+alert.className='eco-alert '+severity;alert.textContent=message;advice.textContent=tip;
+drawChart();updateExtraUI()}
+function updateExtraUI(){const o=organisms.find(x=>x.id===selected),panel=$('genealogy');if(o){let id=o.id,chain=[],visited=new Set();for(let i=0;i<12&&id!=null&&!visited.has(id);i++){visited.add(id);const a=lineage.get(id);if(!a)break;chain.push(a);id=a.parent}panel.innerHTML=chain.map((a,i)=>`${i?' ← ':''}<button data-ancestor="${a.id}" ${organisms.some(x=>x.id===a.id)?'':'disabled'}>#${a.id} · G${a.gen}</button>`).join('')+'<div class="mini">← は片方の親系統。もう一方の親は個体詳細に表示されます。</div>';}else panel.textContent='個体を選ぶと祖先が表示されます。';const avg=k=>organisms.length?(organisms.reduce((sum,o)=>sum+o.genes[k],0)/organisms.length).toFixed(2):'—';$('traits').innerHTML=`<span class="trait">平均速度 ${avg('speed')}</span><span class="trait">平均視野 ${avg('vision')}</span><span class="trait">平均代謝効率 ${avg('efficiency')}</span><span class="trait">平均体格 ${avg('size')}</span><div class="mini">遺伝子は世代交代と自然選択によって変化します。</div>`}
+$('genealogy').addEventListener('click',e=>{const b=e.target.closest('[data-ancestor]');if(b&&!b.disabled){selected=+b.dataset.ancestor;updateUI()}});
+$('snapshot').onclick=()=>takeSnapshot();$('rewind').onclick=rewind;$('timeSlider').oninput=updateTimeline;
+function point(e){const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*W,y:(e.clientY-r.top)/r.height*H}}let lastPaintAt=0;
+function interact(e,forcePlant=false){const p=point(e);
+ if(forcePlant&&performance.now()-lastPaintAt<75)return;
+ if(forcePlant)lastPaintAt=performance.now();
+ if(brush!=='observe'){paintTerrain(p.x,p.y);return;}if(forcePlant){addPlants(5,p.x,p.y);return}const o=nearest(p,organisms,23);if(o){selected=o.id;updateUI()}else{selected=null;following=false;addPlants(5,p.x,p.y);updateUI()}}cv.addEventListener('pointerdown',e=>{dragging=true;cv.setPointerCapture(e.pointerId);interact(e)});cv.addEventListener('pointermove',e=>{if(dragging)interact(e,brush==='observe')});for(const evt of ['pointerup','pointercancel','lostpointercapture'])cv.addEventListener(evt,()=>dragging=false);
+document.querySelectorAll('[data-brush]').forEach(b=>b.onclick=()=>{brush=b.dataset.brush;document.querySelectorAll('[data-brush]').forEach(x=>x.classList.toggle('active',x===b));cv.style.cursor=brush==='observe'?'crosshair':'cell';});
+$('disease').onclick=()=>{const candidates=organisms.filter(o=>!o.infected);for(let i=0;i<Math.min(8,candidates.length);i++){const o=candidates.splice(Math.floor(Math.random()*candidates.length),1)[0];o.infected=true;o.infectionAge=0;}log('感染症が発生した');updateUI();};
+$('heal').onclick=()=>{let n=0;for(const o of organisms)if(o.infected){o.infected=false;o.infectionAge=0;n++;}log(`${n}個体を治療した`);updateUI();};
+$('toggleLearning').onclick=()=>{learningEnabled=!learningEnabled;$('toggleLearning').textContent='学習 '+(learningEnabled?'ON':'OFF');$('toggleLearning').classList.toggle('active',learningEnabled)};
+$('togglePrediction').onclick=()=>{predictionEnabled=!predictionEnabled;$('togglePrediction').textContent='追跡予測 '+(predictionEnabled?'ON':'OFF');$('togglePrediction').classList.toggle('active',predictionEnabled)};
+$('clearMemories').onclick=()=>{for(const o of organisms)o.dangerMemory=[];notify('危険記憶を消去しました');updateUI()};
+$('showMemories').onclick=()=>{showMemories=!showMemories;$('showMemories').classList.toggle('active',showMemories);$('showMemories').textContent=showMemories?'記憶を非表示':'危険記憶を可視化'};
+$('toggleLinks').onclick=()=>{showLinks=!showLinks;$('toggleLinks').classList.toggle('active',showLinks);$('toggleLinks').textContent=showLinks?'ラインを非表示':'捕食・採食ラインを表示'};
+$('follow').onclick=()=>{if(selected==null){notify('先に生物を選択してください');return;}following=!following;$('follow').classList.toggle('active',following);$('follow').textContent=following?'追跡を解除':'選択個体を追跡'};
+$('singleStep').onclick=()=>{if(!paused){notify('一時停止してから操作してください');return;}simulate();updateUI();renderFrame()};
+$('pause').onclick=()=>{paused=!paused;$('pause').textContent=paused?'▶ 再開':'Ⅱ 一時停止';$('status').textContent=paused?'Ⅱ PAUSED':'● SIMULATING'};document.querySelectorAll('[data-speed]').forEach(b=>b.onclick=()=>{speed=+b.dataset.speed;document.querySelectorAll('[data-speed]').forEach(x=>x.classList.toggle('active',x===b));updateUI()});$('food').onclick=()=>{addPlants(70);updateUI();notify('植物を追加しました')};$('spawn').onclick=()=>{for(let i=0;i<10;i++)create('herb');updateUI();log('草食生物を導入した')};$('predator').onclick=()=>{for(let i=0;i<3;i++)create('pred');updateUI();log('捕食者を導入した')};$('rain').onclick=()=>{addPlants(140);notify('雨が降り、植物が増えました');log('降雨が発生した');updateUI()};$('drought').onclick=()=>{plants.splice(0,Math.floor(plants.length*.7));notify('干ばつで植物が減少しました');log('干ばつが発生した');updateUI()};$('grow').oninput=e=>{env.grow=+e.target.value;$('growVal').textContent=env.grow.toFixed(1)+'×'};$('mutation').oninput=e=>{env.mutation=+e.target.value;$('mutVal').textContent=Math.round(env.mutation*100)+'%'};$('temperature').oninput=e=>{env.temperature=+e.target.value;$('tempVal').textContent=env.temperature+'°C'};
+const KEY='artificial-ecosystem.v1',AUTOSAVE_KEY='artificial-ecosystem.autosave.v1';
+let autosaveTimer=0;
+function autoSave(){try{localStorage.setItem(AUTOSAVE_KEY,JSON.stringify(worldData()));$('autosaveStatus').textContent='自動保存済 · DAY '+Math.floor(day)}catch(e){$('autosaveStatus').textContent='自動保存できません（JSON出力を利用）'}}
+setInterval(()=>{if(!paused)autoSave()},60000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')autoSave()});
+window.addEventListener('pagehide',autoSave);
+
+function worldData(){return {version:3,terrain,organisms,plants,nextId,day,ticks,env,history,events,lineage:[...lineage.entries()],births,deaths,vitals,huntCount,learningEnabled,predictionEnabled,snapshots:snapshots.slice(-12)}}
+function restoreWorld(d){
+ if(!d||![1,2,3].includes(d.version)||!Array.isArray(d.organisms)||!Array.isArray(d.plants))throw Error('invalid format');
+ if(d.organisms.length>500||d.plants.length>1500)throw Error('too many entities');
+ const cleanOrg=d.organisms.filter(o=>o&&Number.isFinite(o.x)&&Number.isFinite(o.y)&&Number.isFinite(o.energy)&&o.genes&&['herb','pred'].includes(o.type)&&['speed','vision','efficiency','size','fertility'].every(k=>Number.isFinite(o.genes[k])&&o.genes[k]>0)).map(o=>({...o,x:clamp(o.x,7,W-7),y:clamp(o.y,7,H-7),infected:!!o.infected}));
+ if(cleanOrg.length!==d.organisms.length)throw Error('invalid organism');
+ const cleanPlants=d.plants.filter(p=>p&&Number.isFinite(p.x)&&Number.isFinite(p.y)&&Number.isFinite(p.energy));
+ if(cleanPlants.length!==d.plants.length)throw Error('invalid plant');
+ terrain=Array.isArray(d.terrain)&&d.terrain.length===COLS*ROWS?d.terrain.map(b=>BIOMES[b]?b:'grass'):(seedTerrain(),terrain);
+ organisms=cleanOrg;plants=cleanPlants;nextId=Math.max(1,+d.nextId||1,...organisms.map(o=>o.id+1));
+ day=clamp(+d.day||1,1,1e8);ticks=clamp(+d.ticks||0,0,1e10);
+ env={grow:clamp(+d.env?.grow||1,0,3),mutation:clamp(+d.env?.mutation||.12,0,.5),temperature:clamp(+d.env?.temperature||22,0,40)};
+ history=Array.isArray(d.history)?d.history.slice(-160):[];
+ events=Array.isArray(d.events)?d.events.filter(x=>typeof x==='string').slice(0,4):[];
+ lineage=new Map(Array.isArray(d.lineage)?d.lineage.filter(x=>Array.isArray(x)&&x.length===2).slice(-7000):[]);
+ if(!lineage.size)organisms.forEach(rememberLineage);
+ snapshots=Array.isArray(d.snapshots)?d.snapshots.filter(x=>x&&Array.isArray(x.organisms)&&Array.isArray(x.plants)).slice(-12):[];
+ births=+d.births||0;deaths=+d.deaths||0;huntCount=+d.huntCount||0;learningEnabled=d.learningEnabled!==false;predictionEnabled=d.predictionEnabled!==false;for(const [id,on,label] of [['toggleLearning',learningEnabled,'学習'],['togglePrediction',predictionEnabled,'追跡予測']]){$(id).textContent=label+' '+(on?'ON':'OFF');$(id).classList.toggle('active',on)}vitals=Array.isArray(d.vitals)?d.vitals.slice(-500):[];
+ selected=null;acc=0;lastSeason=Math.floor(day/40)%4;
+ for(const [key,val] of [['grow',env.grow],['mutation',env.mutation],['temperature',env.temperature]]){$(key).value=val;$(key).dispatchEvent(new Event('input'))}
+ log('保存された世界を復元した');
+ if(!snapshots.length)takeSnapshot(true);updateTimeline();updateUI();
+}
+function downloadFile(name,content,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000)}
+$('save').onclick=()=>{try{localStorage.setItem(KEY,JSON.stringify(worldData()));notify('世界を保存しました')}catch(e){notify('保存できませんでした')}};
+$('load').onclick=()=>{try{restoreWorld(JSON.parse(localStorage.getItem(KEY)));notify('世界を復元しました')}catch(e){notify('有効な保存データがありません')}};
+$('loadAuto').onclick=()=>{try{const data=localStorage.getItem(AUTOSAVE_KEY);if(!data)throw Error('no backup');if(!confirm('自動保存された世界を復元しますか？ 現在の世界は置き換わります。'))return;restoreWorld(JSON.parse(data));notify('自動保存から復元しました')}catch(e){notify('復元できる自動保存がありません')}};
+$('exportWorld').onclick=()=>downloadFile('ecosystem-day-'+Math.floor(day)+'.json',JSON.stringify(worldData()),'application/json');
+$('exportCsv').onclick=()=>{const cols=['day','herb','pred','plants','births','deaths','avgSpeed','avgEfficiency'];const rows=[cols.join(','),...history.map(row=>cols.map(k=>Number.isFinite(row[k])?row[k]:'').join(','))];downloadFile('ecosystem-observations.csv','\ufeff'+rows.join('\\r\\n'),'text/csv;charset=utf-8');notify('観測データを出力しました')};
+$('importWorld').onclick=()=>$('importFile').click();
+$('importFile').onchange=async e=>{const f=e.target.files?.[0];e.target.value='';if(!f)return;if(f.size>12_000_000){notify('ファイルが大きすぎます');return}try{const d=JSON.parse(await f.text());if(!confirm('現在の世界を読み込んだデータで置き換えますか？'))return;restoreWorld(d);notify('JSONから世界を復元しました')}catch(err){notify('読み込めないJSONです')}};
+$('scenario').onclick=()=>{if(!confirm('新しい環境実験を始めますか？ 現在の世界はリセットされます。'))return;reset();env.grow=.55;env.temperature=33;$('grow').value=.55;$('grow').dispatchEvent(new Event('input'));$('temperature').value=33;$('temperature').dispatchEvent(new Event('input'));for(let i=0;i<terrain.length;i++)if(Math.random()<.35)terrain[i]='desert';plants.splice(0,Math.floor(plants.length*.4));log('高温・乾燥の環境実験を開始した');updateUI()};
+;$('reset').onclick=()=>{if(confirm('現在の世界を初期化しますか？ 保存した世界は残ります。')){reset();notify('新しい世界を作成しました')}};reset();requestAnimationFrame(loop);
+try{if(localStorage.getItem('artificial-ecosystem.tutorial.v1')!=='done')setTimeout(openTutorial,350)}catch(e){setTimeout(openTutorial,350)}
+
+})();</script></body></html>
